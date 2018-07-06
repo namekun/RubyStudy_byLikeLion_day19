@@ -1,12 +1,14 @@
 class MoviesController < ApplicationController
-  before_action :js_authenticate_user!, only: [:like_movie]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :js_authenticate_user!, only: [:like_movie, :create_comment, :destroy_comment, :update_comment]
+  before_action :authenticate_user!, except: [:index, :show, :search_movie]
   before_action :set_movie, only: [:show, :edit, :update, :destroy, :create_comment]
 
   # GET /movies
   # GET /movies.json
   def index
-    @movies = Movie.all
+
+    @movies = Movie.page(params[:page])
+    
   end
 
   # GET /movies/1
@@ -96,6 +98,18 @@ class MoviesController < ApplicationController
   def update_comment
     @comment = Comment.find(params[:comment_id])
     @comment.update(contents: params[:contents])
+  end
+  
+  def search_movie
+    respond_to do |format| # 어떤방식으로 요청이 왔는가?
+      if params[:q].strip.empty?
+        render nothing: true # 이렇게 하면 아무 응답도 안해준다.
+        format.js {render 'no_content'} # js요청이 오면 no_content.js.erb파일을 찾아서 응답으로 돌려줘라.
+      else  
+        @movies = Movie.where("title LIKE ?", "#{params[:q]}%")
+        format.js {render 'search_movie'}
+      end
+    end
   end
     
   private

@@ -1,4 +1,9 @@
 <h1 id = "title">Movies</h1>
+<input type="text" class="form-control movie-title">
+<div class="recomm-movie d-flex justify-content-start row">
+    
+  
+</div>
 
 <div id = "title" class ="row">
 <% @movies.each do |movie| %>
@@ -14,6 +19,9 @@
 </div>
 <% end %>
 </div>
+<hr>
+<%=paginate @movies, theme: 'twitter-bootstrap-4' %>
+<hr>
 <br>
 
 <%= link_to 'New Movie', new_movie_path %>
@@ -28,6 +36,19 @@
 <%= link_to "로그인", new_user_session_path %>
 <%end%>
 <script>
+
+  $(document).on('ready', function(){
+    $('.movie-title').on('keyup', function(){
+      $('.recomm-movie').html('');
+      var title = $(this).val()
+      $.ajax({
+        url: 'movies/search_movie',
+        data: {
+          q: title
+        }
+      })
+    })
+  });
   // var btn = document.getElementsByClassName("btn")[0];
   // var count = 0;
   // var msg = "나 건드리지마!!";
@@ -94,10 +115,10 @@
 //마우스를 올렸을때, 버튼색상을 바꾸자(이벤트, 이벤트 리스너)
 //해당 버튼의 class가 btn btn-danger 로 변경(이벤트 핸들러)
 
-var title = document.getElementsByClassName("card-title")[0];
+/*var title = document.getElementsByClassName("card-title")[0];
 btn.addEventListener("mouseover", function(){
   btn.setAttribute("class", "btn btn-danger ");
 })
-
+*/
 
 </script>

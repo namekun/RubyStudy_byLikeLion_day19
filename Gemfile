@@ -5,6 +5,10 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'faker'
+#pagination
+gem 'kaminari'
+gem 'bootstrap4-kaminari-views'
 gem 'mini_magick'
 # beautify
 gem 'bootstrap' , '~> 4.1.1'

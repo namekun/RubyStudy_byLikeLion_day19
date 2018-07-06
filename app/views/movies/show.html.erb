@@ -85,6 +85,7 @@
             $(this).text("확인").removeClass("edit-comment btn-warning text-white").addClass("update-comment btn-dark text-white");
         });
         
+        
         $(document).on('click','.update-comment', function(){
             var comment_id = $(this).data('id');
             var comment_form = $(`.edit-comment-${comment_id}`)
